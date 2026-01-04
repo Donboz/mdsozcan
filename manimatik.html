@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İsme Özel Manimatik - Mega Arşiv</title>
+    <style>
+        /* CSS: Tasarım ve Görünüm Kısmı */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* SAYAÇ STİLLERİ */
+        #sayac-alani {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 15px;
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            width: 90%;
+            max-width: 450px;
+        }
+
+        #sayac-baslik {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        #sayac-deger {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            transition: transform 0.3s;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-top: 0;
+        }
+
+        p.aciklama {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #764ba2;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #764ba2;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #5b3781;
+            transform: translateY(-2px);
+        }
+
+        /* Sonuç Alanı */
+        #sonucKutusu {
+            margin-top: 25px;
+            background-color: #fff9c4;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #fbc531;
+            color: #2c3e50;
+            font-style: italic;
+            font-size: 18px;
+            line-height: 1.6;
+            display: none;
+            white-space: pre-line;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sayac-alani">
+        <div id="sayac-baslik">5 Mart 2026'ya Kalan Süre</div>
+        <div id="sayac-deger">Hesaplanıyor...</div>
+    </div>
+
+    <div class="container">
+        <h1>✨ Manimatik</h1>
+        <p class="aciklama">İsmini yaz, dev arşivden manini kap!</p>
+
+        <div class="input-group">
+            <input type="text" id="isimInput" placeholder="Adınız nedir?" autocomplete="off">
+        </div>
+        
+        <button onclick="maniUret()">Manimi Göster</button>
+
+        <div id="sonucKutusu"></div>
+    </div>
+
+    <script>
+        // --- 1. SAYAÇ KODLARI ---
+        const hedefTarih = new Date("March 5, 2026 00:00:00").getTime();
+
+        const sayacInterval = setInterval(function() {
+            const simdi = new Date().getTime();
+            const mesafe = hedefTarih - simdi;
+
+            const gun = Math.floor(mesafe / (1000 * 60 * 60 * 24));
+            const saat = Math.floor((mesafe % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const dakika = Math.floor((mesafe % (1000 * 60 * 60)) / (1000 * 60));
+            const saniye = Math.floor((mesafe % (1000 * 60)) / 1000);
+
+            document.getElementById("sayac-deger").innerHTML = 
+                gun + "g " + saat + "s " + dakika + "dk " + saniye + "sn ";
+
+            if (mesafe < 0) {
+                clearInterval(sayacInterval);
+                document.getElementById("sayac-deger").innerHTML = "Süre Doldu!";
+            }
+        }, 1000);
+
+        // --- 2. DEV MANİ HAVUZU ---
+        const maniler = [
+            // --- KLASİKLER VE DOĞA ---
+            "Bahçelerde börülce,\nOynar gelin görümce,\n[ISIM] gibisi var mı,\nŞu dünyayı görünce?",
+            "Mani mani manimiz,\nVar mı senin gibimiz?\n[ISIM] buraya gelince,\nŞenlenir her yerimiz.",
+            "Armudun dalı ince,\nGüller açar görünce,\n[ISIM] sen ne tatlısın,\nYüreğim çarpar ince ince.",
+            "Deniz suyu serindir,\nDamla damla derindir,\n[ISIM] senin sohbetin,\nBaldan bile şirindir.",
+            "Karanfilim deste deste,\nBülbül oldum ben kafeste,\n[ISIM] senin şansın bol,\nKısmetin var her nefeste.",
+            "Gökte yıldız yüz altmış,\nMehtap suya yan batmış,\nSanki [ISIM] doğarken,\nGüneş ona nur katmış.",
+            "Portakalı soydum,\nBaş ucuma koydum,\n[ISIM] senin adını,\nYıldızlara sordum.",
+            "Tren gelir hoş gelir,\nOdaları boş gelir,\n[ISIM] bize gelince,\nDünya bana hoş gelir.",
+            "Çay koydum demini,\nAldım derdimi gamımı,\n[ISIM] gelince meclise,\nUnuttum bütün elemi.",
+            "Mavi boncuk takarsın,\nAleme caka satarsın,\n[ISIM] senin gülüşünle,\nKaranlığı yakarsın.",
+            "Bahçelerde pırasa,\nYaprağına kar yağsa,\n[ISIM] gibi akıllısı,\nŞu dünyaya zor sığsa.",
+            "Pencerede tül perde,\nPerdenin ucu yerde,\n[ISIM] gibi dostun varsa,\nDüşmezsin asla derde.",
+            "Suya attım bir taş,\nÇıkardı ıslak bir baş,\n[ISIM] benim canımdır,\nHem dosttur hem arkadaş.",
+            "Fırında sütlaç pişer,\nKaşıkla yere düşer,\n[ISIM] yola çıkınca,\nEngeller bir bir şaşar.",
+            "Sarı taksi geliyor,\nKornasını çalıyor,\n[ISIM] inmiş taksiden,\nHerkes ona bakıyor.",
+            "Üzüm koydum sepete,\nYar oturur tepede,\n[ISIM] senin ismini,\nYazdırdım ben etikete.",
+            "Damda leylek takırdar,\nÇocuklar kıkırdar,\n[ISIM] neşe kaynağıdır,\nGönülleri fıkırdar.",
+            "Çarşıdan aldım nar,\nEve geldim onu yar,\n[ISIM] seni sevmeyen,\nDünyada etti zarar.",
+            "Gemilerde talim var,\nBahriyeli yarim var,\n[ISIM] senin zekana,\nSöyleyecek sözüm var.",
+            "Patlıcan oymadın mı?\nTadına doymadın mı?\n[ISIM] sana söylüyorum,\nSesimi duymadın mı?",
+            "Havada uçan kuşlar,\nKanadı sırma saçlar,\n[ISIM] yola gidince,\nArkasından bakar taşlar.",
+            "Masa üstünde pekmez,\nBu pekmez bana yetmez,\n[ISIM] çok çalışkandır,\nAsla tembellik etmez.",
+            "Tarlada biter kamış,\nUzar gider uzanmış,\n[ISIM] in güzelliği,\nDillere destan olmuş.",
+            "Cevizim var kırmalı,\nYari nerde bulmalı,\n[ISIM] gibi birini,\nPamuklara sarmalı.",
+
+            // --- YENİ EKLENENLER (EĞLENCELİ) ---
+            "Pazardan aldım elma,\nYanına koydum hurma,\n[ISIM] çok nazlısın,\nBeni hiç yorma.",
+            "Kuyuya taş atarım,\nYumurtaya taş katarım,\n[ISIM] senin için,\nDünyayı ben yakarım.",
+            "Ay dede, ay dede,\nEvin barkın nerede,\n[ISIM] seni sorarsa,\nSöyle kalbimde.",
+            "Kavun karpuz yata yata,\nBüyür gider bata bata,\n[ISIM] seni görünce,\nKalbim atar küt küt ata.",
+            "Geminin bacası tütüyor,\nHorozlar vakitsiz ötüyor,\n[ISIM] aklıma gelince,\nGönlümde güller bitiyor.",
+            "Bahçelerde maydanoz,\nSuyu sıksan bir kavanoz,\n[ISIM] bizim olunca,\nKıskansın bütün vatoz.",
+            "Entarisi ala benziyor,\nŞeftalisi bala benziyor,\n[ISIM] in şu duruşu,\nDalda güle benziyor.",
+            "Yumurtanın sarısı,\nYere düştü yarısı,\n[ISIM] i sevmeyenler,\nOlsun kovan arısı.",
+            "Tepsi tepsi fındıklar,\nAyşe teyze kıkırdar,\n[ISIM] içeri girince,\nCamlar bile şıkırdar.",
+            "Kahve pişirdim bol köpüklü,\nFincanları hep döküklü,\n[ISIM] çok havalısın,\nHem de birazcık süslü.",
+            "Sokakta gezerim,\nAyağımı ezerim,\n[ISIM] senin hatrına,\nDestanlar yazarım.",
+            "Sandığımı açamadım,\nÇeyizimi saçamadım,\n[ISIM] in güzelliğinden,\nUzağa hiç kaçamadım.",
+            "Bahçede iğde midir?\nDalları yerde midir?\n[ISIM] i sorarsan,\nKalpteki yerde midir?",
+            "Elmayı bütün dildim,\nÇamura düştü sildim,\n[ISIM] senin kıymetini,\nBen herkesten iyi bildim.",
+            "Ocak başında maşa,\nAklın gelmesin taşa,\n[ISIM] gibi biriyle,\nÖmür boyu bin yaşa.",
+            "Dam başında saksağan,\nVur beline kazmayı,\n[ISIM] al eline,\nO güzelim yazmayı.",
+            "Mendilimde tel oya,\nGülmedim doya doya,\n[ISIM] senin yüzünden,\nBoyandım binbir boya.",
+            "Su gelir millendirir,\nBahçeyi güllendirir,\n[ISIM] in bir bakışı,\nDilsizi dillendirir.",
+            "Karşıda kara kedi,\nAğzında var bir kedi,\n[ISIM] i sorar isen,\nMahallenin kıymetlisi.",
+            "Evlerinin önü kuyu,\nİçerler soğuk suyu,\n[ISIM] in tek kusuru,\nBirazcık inattır huyu.",
+            "Kiremitte buz musun?\nGelin misin kız mısın?\n[ISIM] sana yanıyorum,\nSen de bana yoz musun?",
+            "Mani benim ezberim,\nKan ağlıyor gözlerim,\n[ISIM] gelip gülerse,\nEriyecek dizlerim.",
+            "Dere boyu kavaklar,\nAçıldı yeşil yapraklar,\n[ISIM] o kadar tatlı ki,\nŞekerlendi dudaklar.",
+            "Ayna attım çayıra,\nŞavkı vurdu bayıra,\n[ISIM] in bahtı güzel,\nİşleri gitsin hayıra.",
+            "Mendilim yele yele,\nDüştüm gurbet ele,\n[ISIM] in hasretinden,\nGözyaşım döndü sele.",
+            "Karşıdan atlı geçti,\nNalları parladı geçti,\n[ISIM] i gören herkes,\nKendinden bir an geçti.",
+            "Altın tasın kenarı,\nİçine sızdı narı,\n[ISIM] bu dünyanın,\nEn çalışkan arısı.",
+            "Evlerinin önü iğde,\nİğdenin dalı yerde,\n[ISIM] gibi birisi,\nBulunmaz hiçbir yerde.",
+            "Ay doğar sini sini,\nSevmişim birisini,\n[ISIM] senin uğruna,\nVeririm hepisini.",
+            "Bahçelerde enginar,\nEnginarın dengi var,\n[ISIM] i sorarsan,\nKalbimde bir yeri var.",
+            "Dağlarda kar kalmadı,\nYürekte fer kalmadı,\n[ISIM] o kadar sevdim,\nBaşkasına yer kalmadı.",
+            "Masa üstünde bardak,\nGel buna çay koyak,\n[ISIM] ile sohbetin,\nTadına bir varak.",
+            "Portakal dilim dilim,\nTutulur benim dilim,\n[ISIM] karşıma çıkınca,\nDurur sanki zaman dilim.",
+            "Gökte uçan teyyare,\nSelam söyle o yare,\n[ISIM] benim derdime,\nAncak sensin tek çare.",
+            "Kutu kutu pense,\nElmamı yese,\n[ISIM] benim dostumdur,\nArkamdan kim ne derse.",
+            "Bahçede hanımeli,\nYere değiyor eli,\n[ISIM] i görenler,\nOluyor sanki deli.",
+            "Kuyu başında bakır,\nİçinde suyu şakır,\n[ISIM] in gözleri,\nBazen bakar çakır.",
+            "Leblebi koydum tasa,\nEl vurdum basa basa,\n[ISIM] senin alnına,\nYazılmış büyük yasa.",
+            "Sini sini şekerim,\nÜstüne bal dökerim,\n[ISIM] senin kahrını,\nÖlene dek çekerim.",
+            "Armut dalda sallanır,\nSallandıkça ballanır,\n[ISIM] i görenler,\nSevinçten hallenir.",
+            "Bahçelerde kereviz,\nBiz severiz her yeriz,\n[ISIM] bize gelince,\nBayram eder evimiz.",
+            "Tencerede pişiririm,\nAklı baştan şaşırırım,\n[ISIM] sen iste yeter,\nDağları ben aşırırım.",
+            "Giden kağnı gölgedir,\nYarim hangi bölgedir,\n[ISIM] in güzelliği,\nDillere bir belgedir.",
+            "Minarede ezan var,\nYüreğimde sızım var,\n[ISIM] gibi birine,\nSöylenecek sözüm var.",
+            "Karşıda duran dağlar,\nBaşını duman bağlar,\n[ISIM] i görmeyince,\nŞu garip gönlüm ağlar.",
+            "Bahçede var sarmaşık,\nOldum sana ben aşık,\n[ISIM] senin kafan,\nNeden böyle karışık?",
+            "Elma attım denize,\nGeliyor yüze yüze,\n[ISIM] in selamı var,\nBuradaki hepinize.",
+            "Karanfil oylum oylum,\nGeliyor selvi boylum,\n[ISIM] ne güzel olmuş,\nDeğişmiş sanki huyun.",
+            "Köprü altı dikenli,\nYaktın beni kefenli,\n[ISIM] sen de yanasın,\nBenim gibi öfkenli.",
+            "Çiçekleri suladım,\nSeni candan diledim,\n[ISIM] senin ismini,\nMendilime işledim.",
+            "Sokak kapısı darda,\nYüreğim kaldı harda,\n[ISIM] seni ararım,\nYağmurda ve karda.",
+            "Camlarda perdesin,\nSen bende nerdesin,\n[ISIM] çok özledim,\nAcaba şimdi nerdesin?",
+            "Yıldızlar saya saya,\nİndi bulutlar çaya,\n[ISIM] öyle parlak ki,\nBenziyor dolunaya.",
+            "Bahçenin kapısı dar,\nİçinde güller var,\n[ISIM] i sevenin,\nYüreğinde ateş var.",
+            "Pencereden bak bana,\nFıstık atarım sana,\n[ISIM] eğer gülersen,\nCanım kurban sana.",
+            "Şu dağların arkası,\nGelir yarin hırkası,\n[ISIM] in bakışları,\nSanki elmas parçası.",
+            "Çeşme başı pıtrak,\nBurdan yarim ırak,\n[ISIM] gel yanıma,\nHasretliği bırak.",
+            "Denizlerin kumuyum,\nBalıkların puluyum,\n[ISIM] emret yeter,\nKapının ben kuluyum.",
+            "Evlerinin önü mersin,\nAllah bana sabır versin,\n[ISIM] beni sevmezsen,\nSeni kurtlar yesin.",
+            "Bahçede yeşil çınar,\nDibinden su kaynar,\n[ISIM] i görenin,\nYüreği hop hop oynar.",
+            "Karanfilsin tarçınsın,\nNeden böyle hırçınsın,\n[ISIM] sen benim,\nEn değerli parçamsın.",
+            "Mani maniyi açar,\nMani bilmeyen kaçar,\n[ISIM] i görenler,\nEtrafa neşe saçar.",
+            "Altın yüzük var benim,\nParmağıma dar benim,\n[ISIM] in haberi yok,\nGizli sevdam var benim.",
+            "Armudu taşlayalım,\nDibinde kışlayalım,\n[ISIM] sen gelince,\nSöze başlayalım.",
+            "Bahçede gül ağacı,\nDibinde var ilacı,\n[ISIM] senin sözlerin,\nBaşımın oldu tacı.",
+            "Dere boyu sazlıktır,\nÖrdekleri kazlıktır,\n[ISIM] in giydiği,\nBeyaz bir yazlıktır.",
+            "Elma yanaklımısın,\nBal dudaklımısın,\n[ISIM] söyle bana,\nSen yasaklımısın?",
+            "Fındık dalda tekleme,\nOğlan beni bekleme,\n[ISIM] benim olacak,\nHiç boşuna bekleme.",
+            "Gül dibinde tavşan,\nDağa taşa koşan,\n[ISIM] i görünce,\nKalmadı hiç tasam.",
+            "Halının tozunu al,\nKalbine sevgiyi sal,\n[ISIM] çok tatlıdır,\nSanki petekte bal.",
+            "Irmak kenarı taşlar,\nUçuyor gökte kuşlar,\n[ISIM] yola çıkınca,\nEğilir bütün başlar.",
+            "Jandarma gelir geçer,\nKötüyü burdan seçer,\n[ISIM] gibi iyisi,\nAncak şerbet içer.",
+            "Kale kapısı taştan,\nÇıkarır aklı baştan,\n[ISIM] senin sevdan,\nEksilmez bu baştan.",
+            "Lale sümbül bağlarda,\nKarlar erir dağlarda,\n[ISIM] in namı yürür,\nBütün bu çağlarda.",
+            "Menekşe boyun eğmiş,\nYaprağı suya değmiş,\n[ISIM] in güzelliği,\nDünyalara bedelmiş.",
+            "Nar tanesi nur tanesi,\nDünyanın bir tanesi,\n[ISIM] senin evin,\nGönlümün hastanesi.",
+            "Oturdum pencereye,\nBaktım durdum geceye,\n[ISIM] ismini yazdım,\nHer bir heceye.",
+            "Papatya falı baktım,\nSeni gönlüme taktım,\n[ISIM] senin için,\nGemileri ben yaktım.",
+            "Rüzgar eser serin serin,\nYarası çok derin derin,\n[ISIM] buraya gel,\nYanımda hazır yerin.",
+            "Samanlıkta iğne var,\nYüreğimde düğme var,\n[ISIM] i sevmeyene,\nSöyleyin ne diye var?",
+            "Şemsiyemin ucu kara,\nYüreğimde açtın yara,\n[ISIM] i bulmak için,\nDüştüm ben yollara.",
+            "Tahta masa örtüsü,\nBülbülün var türküsü,\n[ISIM] çok güzeldir,\nHem huyu hem görgüsü.",
+            "Uçak gelir ses ile,\nDağı taşı del ile,\n[ISIM] i bekliyorum,\nBüyük bir heves ile.",
+            "Üzüm bağı yeşerdi,\nMeyvesini o verdi,\n[ISIM] in sevgisi,\nBeni murada erdirdi.",
+            "Vazo dolu çiçekler,\nUçuşur kelebekler,\n[ISIM] i görenler,\nMutluluktan emekler.",
+            "Yol üstünde karakol,\nGel yarim yanımda ol,\n[ISIM] sen olmazsan,\nŞaşırırım ben yol.",
+            "Zeytin kara ben kara,\nCiğerim pare pare,\n[ISIM] i görünce,\nBulunur derde çare.",
+            "Ağaçta karga mısın,\nKovsam da kalkmaz mısın,\n[ISIM] ben ölüyorum,\nSen bana bakmaz mısın?",
+            "Biber ektim tarlaya,\nGüneş vurdu parladı,\n[ISIM] in o gözleri,\nYüreğimi dağladı.",
+            "Ceketimi asarım,\nİstersem de küserim,\n[ISIM] senin uğruna,\nKulağımı keserim.",
+            "Çiçek topladım sana,\nGelip koklasana,\n[ISIM] benim sevgimi,\nArtık anlasana.",
+            "Deniz dalgasız olmaz,\nGönül sevdasız olmaz,\n[ISIM] buralarda,\nSensiz hiç durulmaz.",
+            "Elbisem ipekten,\nKorkarım köpekten,\n[ISIM] i çok severim,\nHem de ta yürekten.",
+            "Fırçayı boya ban,\nResmini duvara as,\n[ISIM] gelmeyince,\nTutuyorum ben yas.",
+            "Gazetede haberler,\nSeni bana överler,\n[ISIM] bu alemde,\nSeni çok severler."
+        ];
+
+        function maniUret() {
+            const isimInput = document.getElementById('isimInput');
+            const sonucKutusu = document.getElementById('sonucKutusu');
+            let isim = isimInput.value.trim();
+
+            if (isim === "") {
+                alert("Lütfen önce adınızı yazın!");
+                return;
+            }
+
+            // Rastgele Mani Seçimi
+            const index = Math.floor(Math.random() * maniler.length);
+            let secilenMani = maniler[index];
+            
+            // Türkçe büyük harf dönüşümü
+            let islenmisMani = secilenMani.replace("[ISIM]", isim.toLocaleUpperCase('tr-TR'));
+
+            sonucKutusu.innerText = islenmisMani;
+            sonucKutusu.style.display = "block";
+            
+            // Animasyon Reset
+            sonucKutusu.classList.remove("fade-in");
+            void sonucKutusu.offsetWidth; 
+            sonucKutusu.classList.add("fade-in");
+        }
+
+        document.getElementById("isimInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                maniUret();
+            }
+        });
+    </script>
+</body>
+</html>
