@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anneler Günü Manimatik</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 520px;
+            width: 92%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            margin-top: 0;
+            font-size: 2rem;
+        }
+
+        p.aciklama {
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        p.link {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            box-sizing: border-box;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+            margin-bottom: 14px;
+        }
+
+        input[type="text"]:focus {
+            border-color: #f5576c;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #f5576c;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #dc3f5a;
+            transform: translateY(-2px);
+        }
+
+        #sonucKutusu {
+            margin-top: 20px;
+            background-color: #fff0f5;
+            padding: 18px;
+            border-radius: 10px;
+            border-left: 5px solid #f5576c;
+            color: #2c3e50;
+            font-size: 18px;
+            line-height: 1.6;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌸 Anneler Günü Manimatik</h1>
+        <p class="aciklama">Annenin adını yaz, 100 farklı Anneler Günü cümlesinden birini kap!</p>
+        <p class="link"><a href="index.html">← Ana Manimatik sayfasına dön</a></p>
+
+        <input type="text" id="isimInput" placeholder="Annenizin adı nedir?" autocomplete="off">
+        <button onclick="cumleUret()">Anneler Günü Cümlesi Göster</button>
+
+        <div id="sonucKutusu"></div>
+    </div>
+
+    <script>
+        const annelerGunuCumleleri = [
+            "Canım annem [ISIM], iyi ki varsın, Anneler Günün kutlu olsun!",
+            "[ISIM], sevginle her günü bayram yapan en güzel kalpsin.",
+            "Bir ömür emeğin için teşekkürler [ISIM], Anneler Günün kutlu olsun.",
+            "[ISIM], gülüşün evimizin en güzel ışığıdır.",
+            "Dünyadaki en güvenli limanım sensin [ISIM].",
+            "Her başarımın ardında senin sabrın var [ISIM].",
+            "Şefkatinle büyüdüm, dualarınla güçlendim [ISIM].",
+            "[ISIM], kalbimin en güzel köşesi hep sana ait.",
+            "Yanımda olduğunda her zorluk kolaylaşır [ISIM].",
+            "[ISIM], sevgini anlatmaya kelimeler yetmez.",
+            "Hayat bana en büyük hediyeyi seni vererek sundu [ISIM].",
+            "Anneler Günün kutlu olsun [ISIM], iyi ki annemsin.",
+            "[ISIM], senin emeğin benim en değerli hazinem.",
+            "Evin neşesi, kalbimin sığınağısın [ISIM].",
+            "Her gün yeniden minnet duyuyorum sana [ISIM].",
+            "[ISIM], iyi ki sevginle büyüttün beni.",
+            "Senin varlığın bana her zaman güç verir [ISIM].",
+            "[ISIM], sevginde huzur, sözlerinde umut bulurum.",
+            "Güzelliğin kalbinden gelir [ISIM], Anneler Günün kutlu olsun.",
+            "[ISIM], bana hayatı sevdiren ilk öğretmenimsin.",
+            "Her fedakarlığın için sonsuz teşekkürler [ISIM].",
+            "Sen gülünce dünya daha güzel oluyor [ISIM].",
+            "[ISIM], kalbimdeki en özel yer daima senin.",
+            "Annem olduğun için çok şanslıyım [ISIM].",
+            "[ISIM], sevgin bana her zaman yol gösteriyor.",
+            "Bir ömür boyu iyi ki senin evladın oldum [ISIM].",
+            "[ISIM], annelik sevgisinin en güzel halisin.",
+            "Bana kattığın tüm güzellikler için teşekkür ederim [ISIM].",
+            "[ISIM], yüreğinin sıcaklığı hiçbir şeye benzemez.",
+            "Anneler Günün kutlu olsun [ISIM], seni çok seviyorum.",
+            "[ISIM], iyi ki kalbin kadar güzel bir annemsin.",
+            "Dualarınla her zaman ayakta kaldım [ISIM].",
+            "[ISIM], varlığın en büyük güvenimdir.",
+            "Hayatın en güzel cümlesi: İyi ki annem [ISIM].",
+            "[ISIM], emeğin ve sevgin için minnettarım.",
+            "Ne zaman yorulsam senin sesin bana iyi gelir [ISIM].",
+            "[ISIM], sevgin en güçlü ilacım oldu hep.",
+            "Seninle her an daha kıymetli [ISIM].",
+            "[ISIM], bir gün değil her gün senin günün.",
+            "Bana öğrettiğin iyilikleri hep taşıyorum [ISIM].",
+            "[ISIM], dünyadaki en güzel sarılışın sahibisin.",
+            "Sevginin adı sensin [ISIM], Anneler Günün kutlu olsun.",
+            "[ISIM], iyi ki kalbini bana yuva yaptın.",
+            "Her başarımda senin payın var [ISIM].",
+            "[ISIM], sabrınla bana hayatı öğrettin.",
+            "En zor günümde bile umudum oldun [ISIM].",
+            "[ISIM], gözlerindeki sevgi her şeye değer.",
+            "Kalbimdeki en güçlü teşekkür sana [ISIM].",
+            "[ISIM], iyi ki benim annemsin.",
+            "Sana olan sevgim her gün daha da büyüyor [ISIM].",
+            "[ISIM], iyi kalbinle dünyamı güzelleştirdin.",
+            "Anneler Günün kutlu olsun [ISIM], hep mutlu ol.",
+            "[ISIM], senin emeğinle bugünlere geldim.",
+            "Bana kattığın her değer için teşekkürler [ISIM].",
+            "[ISIM], şefkatin bir ömre bedel.",
+            "Evimizin kahramanı sensin [ISIM].",
+            "[ISIM], sevgini hissetmek en büyük mutluluğum.",
+            "İyi ki varsın canım annem [ISIM].",
+            "[ISIM], kalbimdeki sevginin tarifi yok.",
+            "Seninle geçen her an çok kıymetli [ISIM].",
+            "[ISIM], iyi ki her zaman yanımdasın.",
+            "Beni ben yapan en güzel emek sensin [ISIM].",
+            "[ISIM], hayatın en nazik dokunuşusun.",
+            "Anneler Günün kutlu olsun [ISIM], iyi ki annemsin.",
+            "[ISIM], sabrın ve sevgin bana umut oldu.",
+            "Gönlümdeki en güzel çiçek sensin [ISIM].",
+            "[ISIM], iyi ki sevginle büyüdüm.",
+            "Her duanda bana yer verdiğin için teşekkürler [ISIM].",
+            "[ISIM], sesin kalbime huzur verir.",
+            "Senin sevginle her şey mümkün [ISIM].",
+            "[ISIM], iyi ki yolumu aydınlatan ışığımsın.",
+            "Dünyanın en güzel annesi sensin [ISIM].",
+            "[ISIM], anneliğin en zarif halisin.",
+            "Emeklerin asla unutulmaz [ISIM], Anneler Günün kutlu olsun.",
+            "[ISIM], kalbinin güzelliği yüzüne yansıyor.",
+            "Bana kattığın cesaret için teşekkür ederim [ISIM].",
+            "[ISIM], sevginde hep güven bulurum.",
+            "İyi ki varsın, iyi ki annemsin [ISIM].",
+            "[ISIM], hayatımın en güzel duasısın.",
+            "Seninle her mevsim bahar [ISIM].",
+            "[ISIM], sevginle güç buluyorum.",
+            "En güzel hikayem sensin [ISIM].",
+            "[ISIM], bir tebessümün dünyama yeter.",
+            "Anneler Günün kutlu olsun [ISIM], kalbin hep neşeyle dolsun.",
+            "[ISIM], iyi ki sevginle sarıldın bana.",
+            "Fedakarlığın ve emeğin için teşekkürler [ISIM].",
+            "[ISIM], kalbimdeki yerin daima biricik.",
+            "Sana baktıkça sevgiyi öğreniyorum [ISIM].",
+            "[ISIM], iyi ki yoluma annem olarak çıktın.",
+            "Sevgin en güzel sığınağım [ISIM].",
+            "[ISIM], her gün sana minnet duyuyorum.",
+            "Anneler Günün kutlu olsun [ISIM], iyi ki varsın.",
+            "[ISIM], bana umut olmayı öğrettin.",
+            "Senin evladın olmak gururum [ISIM].",
+            "[ISIM], hayatıma kattığın tüm güzellikler için teşekkürler.",
+            "Kalbin kadar güzel bir ömrün olsun [ISIM].",
+            "[ISIM], sevgini her zaman kalbimde taşıyorum.",
+            "İyi ki annemsin [ISIM], seni çok ama çok seviyorum.",
+            "[ISIM], bugün de yarın da en büyük sevgimsin.",
+            "Anneler Günün kutlu olsun [ISIM], yüzün hep gülsün.",
+            "[ISIM], benim için her zaman en özel kişisin.",
+            "Canım annem [ISIM], iyi ki hayatımdasın."
+        ];
+
+        function cumleUret() {
+            const isimInput = document.getElementById('isimInput');
+            const sonucKutusu = document.getElementById('sonucKutusu');
+            const isim = isimInput.value.trim();
+
+            if (isim === "") {
+                alert("Lütfen önce annenizin adını yazın!");
+                return;
+            }
+
+            const index = Math.floor(Math.random() * annelerGunuCumleleri.length);
+            const secilenCumle = annelerGunuCumleleri[index];
+            const islenmisCumle = secilenCumle.replace(/\[ISIM\]/g, isim.toLocaleUpperCase('tr-TR'));
+
+            sonucKutusu.innerText = islenmisCumle;
+            sonucKutusu.style.display = "block";
+        }
+
+        document.getElementById("isimInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                cumleUret();
+            }
+        });
+    </script>
+</body>
+</html>
